@@ -4,6 +4,9 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import dash_bootstrap_components as dbc
+import numpy as np
+import locale
+locale.setlocale(locale.LC_ALL, 'es_ES')
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -16,10 +19,24 @@ df['Fecha'] = pd.to_datetime(df['Fecha'])
 last_update = df['Fecha'].max()
 last_update = last_update.strftime('%d de %B de %Y')
 df_grouped = df.groupby('Fecha').sum()
-infected = df_grouped['Casos'][-1:]
-deseased = df_grouped['Fallecidos'][-1:]
-recovered = df_grouped['Recuperados'][-1:]
+infected = df_grouped['Casos'].iloc[-1].astype(np.int64)
+deseased = df_grouped['Fallecidos'].iloc[-1].astype(np.int64)
+recovered = df_grouped['Recuperados'].iloc[-1].astype(np.int64)
 active_cases = infected - deseased - recovered
+
+metrics_dict = {
+    "Casos activos": active_cases,
+    "Infectados": infected,
+    "Fallecidos": deseased,
+    "Recuperados": recovered
+}
+
+colors_dict = {
+    "Casos activos": 'primary',
+    "Infectados": 'danger',
+    "Fallecidos": 'secondary',
+    "Recuperados": 'success'
+}
 
 navbar = dbc.NavbarSimple(
     children=[
@@ -45,16 +62,33 @@ card_content = [
     ),
 ]
 
+cards_content = []
+
+for metric in metrics_dict:
+    cards_content.append(
+        dbc.Col(
+            dbc.Card([
+                dbc.CardHeader(metric),
+                dbc.CardBody(
+                    [
+                        html.H5('{:n}'.format(metrics_dict[metric]),
+                                className='card-title h1')
+                    ]
+                )],
+                color=colors_dict[metric],
+                inverse=True
+            )
+        )
+
+    )
+
 cards = html.Div(
     [
         dbc.Row(
-            [
-                dbc.Col(dbc.Card(card_content, color="primary", inverse=True)),
-                dbc.Col(dbc.Card(card_content, color="secondary", inverse=True)),
-                dbc.Col(dbc.Card(card_content, color="info", inverse=True)),
-                dbc.Col(dbc.Card(card_content, color="secondary", inverse=True)),
-            ],
+            dbc.CardGroup(
+                cards_content),
             className="mb-4",
+            justify='center'
         ),
     ]
 )
