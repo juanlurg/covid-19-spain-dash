@@ -18,7 +18,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 
-file_data = 'https://github.com/datadista/datasets/blob/master/COVID%2019/ccaa_covid19_datos_isciii.csv'
+file_data = 'https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_datos_isciii.csv'
 
 df = pd.read_csv(file_data)
 
@@ -87,7 +87,7 @@ for metric in metrics_dict:
 
             color=colors_dict[metric],
             inverse=True,
-            style={'marginTop': "15px"}
+            style={'marginTop': "15px", "width": "150px"}
         )
     )
 
