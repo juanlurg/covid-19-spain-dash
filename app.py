@@ -9,11 +9,13 @@ import dash_bootstrap_components as dbc
 import numpy as np
 import locale
 import plotly.express as px
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.graph_objects as go
 
+FONT_AWESOME = "https://use.fontawesome.com/releases/v5.7.2/css/all.css"
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
+app = dash.Dash(__name__, external_stylesheets=[
+                dbc.themes.COSMO, FONT_AWESOME])
 
 
 server = app.server
@@ -63,6 +65,30 @@ navbar = dbc.NavbarSimple(
             dbc.NavLink("Datos actualizados el {}".format(
                 last_update_str), href="#")
 
+        ),
+        dbc.NavItem(
+            dbc.NavLink(html.I(className="fas fa-question-circle",
+                               id="open"), href="#"),
+        ),
+        dbc.Modal(
+            [
+                dbc.ModalHeader("Sobre este proyecto"),
+                dbc.ModalBody(dcc.Markdown('''
+                 Realizado por [**Juan Luis Ramirez**](https://github.com/juanlurg)
+                 
+                 Para el desarrollo del proyecto se han usado los datos publicados por [Datadista](https://github.com/datadista/datasets/tree/master/COVID%2019) y el GeoJSON de las comunidades autónomas de [Albert del Amor](https://albertdelamor.carto.com/tables/comunidades_autonomas_etrs89_30n/public/map).
+
+                 El código desarrollado para este proyecto, así como otros Jupyter Notebooks usados para analizar el estado de los datos de la pandemia en España están disponibles en [el repositorio del proyecto](https://github.com/juanlurg/covid-19-spain-dash), en la web podrá encontrar artículos explicando paso a paso el desarrollo.
+
+
+                 Contacto: [**juanlu.rgarcia@gmail.com**](mailto:juanlu.rgarcia@gmail.com)
+                ''')),
+                dbc.ModalFooter(
+                    dbc.Button("Cerrar", id="close", className="ml-auto")
+                ),
+            ],
+            id="modal",
+            centered=True
         ),
 
     ],
@@ -185,6 +211,17 @@ def update_mapa(selected_dimension):
                            t=0))
 
     return {'data': fig, 'layout': layout}
+
+
+@app.callback(
+    Output("modal", "is_open"),
+    [Input("open", "n_clicks"), Input("close", "n_clicks")],
+    [State("modal", "is_open")],
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
 
 
 if __name__ == '__main__':
