@@ -13,7 +13,7 @@ from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
 
 server = app.server
 
@@ -24,7 +24,7 @@ df = pd.read_csv(file_data)
 
 df['Fecha'] = pd.to_datetime(df['Fecha'])
 last_update = df['Fecha'].max()
-last_update_str = last_update.strftime('%d de %B de %Y')
+last_update_str = last_update.strftime('%d/%m/%Y')
 df_grouped = df.groupby('Fecha').sum()
 infected = df_grouped['Casos'].iloc[-1].astype(np.int64)
 deseased = df_grouped['Fallecidos'].iloc[-1].astype(np.int64)
@@ -58,18 +58,47 @@ colors_dict = {
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink(
-            "Datos actualizados el {}".format(last_update_str), href="#")),
+        dbc.NavItem(
+            dbc.NavLink("Datos actualizados el {}".format(
+                last_update_str), href="#")
+
+        ),
 
     ],
     brand="COVID-19 en España",
     brand_href="#",
     color="primary",
     dark=True,
+    fluid=True
 )
 
 
-cards_content = []
+cards_content = [
+    dbc.Card([
+        dbc.CardHeader("Ver en el mapa: "),
+        dbc.CardBody(
+            [
+                dcc.Dropdown(
+                    id='dimension-mapa',
+                    options=[
+                        {'label': 'Casos activos', 'value': 'Casos Activos'},
+                        {'label': 'Infectados', 'value': 'Casos'},
+                        {'label': 'Fallecidos', 'value': 'Fallecidos'},
+                        {'label': 'Recuperados', 'value': 'Recuperados'}
+                    ],
+                    placeholder="Visualizar en el mapa",
+
+                    clearable=False,
+                    value='Casos Activos'
+                )
+            ]
+        )],
+        style={'marginTop': "15px", "width": "190px"},
+    )
+
+
+
+]
 badges_content = []
 
 for metric in metrics_dict:
@@ -87,7 +116,7 @@ for metric in metrics_dict:
 
             color=colors_dict[metric],
             inverse=True,
-            style={'marginTop': "15px", "width": "150px"}
+            style={'marginTop': "15px", "width": "190px"}
         )
     )
 
@@ -116,8 +145,8 @@ app.layout = dbc.Container(
         navbar,
         dbc.Row([
             dbc.Col(cards_content, width=2),
-            dbc.Col(dcc.Graph(
-                figure={"data": fig, "layout": layout}, responsive=True), width=10)
+            dbc.Col(dcc.Graph(id='mapa-spain',
+                              figure={"data": fig, "layout": layout}, responsive=True), width=10)
         ],
             style={"paddingLeft": "10px"}
         ),
@@ -126,6 +155,28 @@ app.layout = dbc.Container(
     fluid=True,
     style={'padding': '0px', 'backgroundColor': '#d4dadc'}
 )
+
+
+@app.callback(Output('mapa-spain', 'figure'), [Input('dimension-mapa', 'value')])
+def update_mapa(selected_dimension):
+    fig = [go.Choroplethmapbox(geojson=communities, locations=hoy['cod_ine'], z=hoy[selected_dimension],
+                               featureidkey='properties.codigo',
+                               colorscale="OrRd", zmin=hoy[selected_dimension].min(), zmax=hoy[selected_dimension].max(),
+                               marker_opacity=1, marker_line_width=0, showlegend=False, showscale=False
+                               )
+           ]
+
+    layout = go.Layout(mapbox_style="carto-positron",
+                       mapbox_zoom=5, mapbox_center={"lat": 40.416775, "lon": -3.703790}, autosize=False,
+                       width=500,
+                       height=900,
+                       margin=dict(
+                           l=0,
+                           r=0,
+                           b=0,
+                           t=0))
+
+    return {'data': fig, 'layout': layout}
 
 
 if __name__ == '__main__':
