@@ -15,6 +15,7 @@ import plotly.graph_objects as go
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
 
+
 server = app.server
 
 
@@ -89,7 +90,8 @@ cards_content = [
                     placeholder="Visualizar en el mapa",
 
                     clearable=False,
-                    value='Casos Activos'
+                    value='Casos Activos',
+                    searchable=False
                 )
             ]
         )],
@@ -131,8 +133,8 @@ fig = [go.Choroplethmapbox(geojson=communities, locations=hoy['cod_ine'], z=hoy[
 
 layout = go.Layout(mapbox_style="carto-positron",
                    mapbox_zoom=5, mapbox_center={"lat": 40.416775, "lon": -3.703790}, autosize=False,
-                   width=500,
-                   height=900,
+                   width=1000,
+                   height=700,
                    margin=dict(
                        l=0,
                        r=0,
@@ -146,7 +148,7 @@ app.layout = dbc.Container(
         dbc.Row([
             dbc.Col(cards_content, width=2),
             dbc.Col(dcc.Graph(id='mapa-spain',
-                              figure={"data": fig, "layout": layout}, responsive=True), width=10)
+                              figure={"data": fig, "layout": layout}), width=10)
         ],
             style={"paddingLeft": "10px"}
         ),
@@ -174,8 +176,8 @@ def update_mapa(selected_dimension):
 
     layout = go.Layout(mapbox_style="carto-positron",
                        mapbox_zoom=5, mapbox_center={"lat": 40.416775, "lon": -3.703790}, autosize=False,
-                       width=500,
-                       height=900,
+                       width=1200,
+                       height=650,
                        margin=dict(
                            l=0,
                            r=0,
