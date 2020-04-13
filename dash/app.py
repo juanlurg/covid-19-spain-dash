@@ -14,7 +14,9 @@ import plotly.graph_objects as go
 locale.setlocale(locale.LC_ALL, 'es_ES')
 
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LITERA])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app.css.append_css({'external_url': '/static/reset.css'})
+app.server.static_folder = 'static'
 
 file_data = 'https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_datos_isciii.csv'
 
@@ -65,35 +67,27 @@ navbar = dbc.NavbarSimple(
 
 
 cards_content = []
+badges_content = []
 
 for metric in metrics_dict:
     cards_content.append(
-        dbc.Col(
-            dbc.Card([
-                dbc.CardHeader(metric),
-                dbc.CardBody(
-                    [
-                        html.H5('{:n}'.format(metrics_dict[metric]),
-                                className='card-title h1')
-                    ]
-                )],
-                color=colors_dict[metric],
-                inverse=True
-            )
-        )
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H4("{:n}".format(
+                        metrics_dict[metric]), className="card-title"),
+                    html.H6(metric, className="card-subtitle"),
 
+
+                ]
+            ),
+
+            color=colors_dict[metric],
+            inverse=True,
+            style={'marginTop': "15px"}
+        )
     )
 
-cards = html.Div(
-    [
-        dbc.Row(
-            dbc.CardGroup(
-                cards_content),
-            className="mb-4",
-            justify='center'
-        ),
-    ]
-)
 
 fig = [go.Choroplethmapbox(geojson=communities, locations=hoy['cod_ine'], z=hoy['Casos Activos'],
                            featureidkey='properties.codigo',
@@ -117,11 +111,17 @@ layout = go.Layout(mapbox_style="carto-positron",
 app.layout = dbc.Container(
     [
         navbar,
-        html.Br(),
-        cards,
-        dcc.Graph(figure={"data": fig, "layout": layout}, responsive=True),
+        dbc.Row([
+            dbc.Col(cards_content, width=2),
+            dbc.Col(dcc.Graph(
+                figure={"data": fig, "layout": layout}, responsive=True), width=10)
+        ],
+            style={"paddingLeft": "10px"}
+        ),
+
     ],
     fluid=True,
+    style={'padding': '0px', 'backgroundColor': '#d4dadc'}
 )
 
 
