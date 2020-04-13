@@ -34,6 +34,10 @@ deseased = df_grouped['Fallecidos'].iloc[-1].astype(np.int64)
 recovered = df_grouped['Recuperados'].iloc[-1].astype(np.int64)
 active_cases = infected - deseased - recovered
 
+inc_infected = infected - df_grouped['Casos'].iloc[-2]
+inc_deseased = deseased - df_grouped['Fallecidos'].iloc[-2]
+inc_recovered = recovered - df_grouped['Recuperados'].iloc[-2]
+
 hoy = df[df['Fecha'] == last_update]
 hoy['Casos Activos'] = hoy['Casos'] - hoy['Fallecidos'] - hoy['Recuperados']
 hoy = hoy.drop(columns=['Hospitalizados', 'UCI'])
@@ -43,6 +47,13 @@ df_spain = df_spain.drop(columns=['cod_ine'])
 
 with open('geo.json') as response:
     communities = json.load(response)
+
+inc_dict = {
+    "Casos activos": inc_infected,
+    "Infectados": inc_infected,
+    "Fallecidos": inc_deseased,
+    "Recuperados": inc_recovered
+}
 
 
 metrics_dict = {
@@ -62,7 +73,7 @@ colors_dict = {
 navbar = dbc.NavbarSimple(
     children=[
         dbc.NavItem(
-            dbc.NavLink("Datos actualizados el {}".format(
+            dbc.NavLink("Último día registrado: {}".format(
                 last_update_str), href="#")
 
         ),
@@ -133,13 +144,17 @@ for metric in metrics_dict:
     cards_content.append(
         dbc.Card(
             dbc.CardBody(
-                [
+                [html.H6([metric],
+                         className="card-subtitle", style={'marginBottom': '5px'}),
                     html.H4("{:n}".format(
                         metrics_dict[metric]), className="card-title"),
-                    html.H6(metric, className="card-subtitle"),
+                    html.H6(["🠝", inc_dict[metric], " (24h.)"],
+                            className="card-subtitle"),
 
 
-                ]
+
+
+                 ]
             ),
 
             color=colors_dict[metric],
