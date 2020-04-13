@@ -19,8 +19,6 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
 
-app.css.append_css({'external_url': '/static/reset.css'})
-app.server.static_folder = 'static'
 
 file_data = 'datos.csv'
 
