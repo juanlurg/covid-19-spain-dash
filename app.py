@@ -123,7 +123,7 @@ for metric in metrics_dict:
 
 fig = [go.Choroplethmapbox(geojson=communities, locations=hoy['cod_ine'], z=hoy['Casos Activos'],
                            featureidkey='properties.codigo',
-                           colorscale="OrRd", zmin=hoy['Casos Activos'].min(), zmax=hoy['Casos Activos'].max(),
+                           colorscale="Blues", zmin=hoy['Casos Activos'].min(), zmax=hoy['Casos Activos'].max(),
                            marker_opacity=1, marker_line_width=0, showlegend=False, showscale=False
                            )
        ]
@@ -159,9 +159,15 @@ app.layout = dbc.Container(
 
 @app.callback(Output('mapa-spain', 'figure'), [Input('dimension-mapa', 'value')])
 def update_mapa(selected_dimension):
+    color_scale_dict = {
+        "Casos Activos": 'Blues',
+        "Casos": 'OrRd',
+        "Fallecidos": 'Greys',
+        "Recuperados": 'Greens'
+    }
     fig = [go.Choroplethmapbox(geojson=communities, locations=hoy['cod_ine'], z=hoy[selected_dimension],
                                featureidkey='properties.codigo',
-                               colorscale="OrRd", zmin=hoy[selected_dimension].min(), zmax=hoy[selected_dimension].max(),
+                               colorscale=color_scale_dict[selected_dimension], zmin=hoy[selected_dimension].min(), zmax=hoy[selected_dimension].max(),
                                marker_opacity=1, marker_line_width=0, showlegend=False, showscale=False
                                )
            ]
