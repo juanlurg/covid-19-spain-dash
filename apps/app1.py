@@ -70,7 +70,8 @@ navbar = dbc.NavbarSimple(
     children=[
 
         dbc.NavItem(dbc.NavLink("Incrementos diarios", href="incrementos")),
-
+        dbc.NavItem(dbc.NavLink("Detalle comunidad", href='#')),
+        dbc.NavItem(dbc.NavLink("Modelos matemáticos", href='#')),
         dbc.NavItem(
             dbc.NavLink(html.I(className="fas fa-question-circle",
                                id="open"), href="#"),

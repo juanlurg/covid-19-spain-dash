@@ -108,7 +108,7 @@ navbar = dbc.NavbarSimple(
 page = dbc.Container(
     [
         navbar,
-
+        html.H5("En desarrollo"),
         dbc.Row([
             dbc.Col(
                 dcc.Graph(figure={
@@ -135,4 +135,3 @@ page = dbc.Container(
     fluid=True,
     style={'padding': '0px', 'backgroundColor': '#d4dadc'}
 )
-
