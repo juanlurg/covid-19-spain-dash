@@ -12,7 +12,6 @@ import plotly.express as px
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
-locale.setlocale(locale.LC_ALL, 'es_ES')
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
