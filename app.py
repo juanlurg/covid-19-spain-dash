@@ -13,13 +13,12 @@ from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 
 
-
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
 
 
-file_data = 'datos.csv'
+file_data = 'https://github.com/datadista/datasets/blob/master/COVID%2019/ccaa_covid19_datos_isciii.csv'
 
 df = pd.read_csv(file_data)
 
