@@ -22,7 +22,7 @@ server = app.server
 app.css.append_css({'external_url': '/static/reset.css'})
 app.server.static_folder = 'static'
 
-file_data = 'https://raw.githubusercontent.com/datadista/datasets/master/COVID%2019/ccaa_covid19_datos_isciii.csv'
+file_data = 'datos.csv'
 
 df = pd.read_csv(file_data)
 
