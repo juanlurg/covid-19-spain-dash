@@ -109,11 +109,11 @@ page = dbc.Container(
                 dcc.Graph(figure={
                     'data': [
                         {'x': dataset.df_spain.index.to_pydatetime(),
-                         'y': dataset.df_spain['Casos'], 'type': 'scatter', 'name': 'Casos'},
+                         'y': dataset.df_spain['Casos'], 'type': 'scatter', 'name': 'Casos',  'marker': {'color': 'rgb(39, 128, 227)'}},
                         {'x': dataset.df_spain.index.to_pydatetime(),
-                         'y': dataset.df_spain['Fallecidos'], 'type': 'scatter', 'name': 'Fallecidos'},
+                         'y': dataset.df_spain['Fallecidos'], 'type': 'scatter', 'name': 'Fallecidos', 'marker': {'color': 'rgb(55, 58, 60)'}},
                         {'x': dataset.df_spain.index.to_pydatetime(),
-                         'y': dataset.df_spain['Recuperados'], 'type': 'scatter', 'name': 'Recuperados'},
+                         'y': dataset.df_spain['Recuperados'], 'type': 'scatter', 'name': 'Recuperados', 'marker': {'color': 'rgb(63, 182, 24)'}},
                         {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
                             0, dataset.df_spain['Casos'].max()], 'type': 'line', 'name': 'Estado de alarma'},
                         {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
