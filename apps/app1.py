@@ -30,33 +30,7 @@ with open('geo.json') as response:
     communities = json.load(response)
 
 
-cards_content = [
-    dbc.Card([
-        dbc.CardHeader("Ver en el mapa: "),
-        dbc.CardBody(
-            [
-                dcc.Dropdown(
-                    id='dimension-mapa',
-                    options=[
-                        {'label': 'Casos activos', 'value': 'Casos Activos'},
-                        {'label': 'Infectados', 'value': 'Casos'},
-                        {'label': 'Fallecidos', 'value': 'Fallecidos'},
-                        {'label': 'Recuperados', 'value': 'Recuperados'}
-                    ],
-                    placeholder="Visualizar en el mapa",
-
-                    clearable=False,
-                    value='Casos Activos',
-                    searchable=False
-                )
-            ]
-        )],
-        style={'marginTop': "15px", "width": "190px"},
-    )
-
-
-
-]
+cards_content = []
 
 for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
     cards_content.append(
@@ -80,6 +54,31 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
             style={'marginTop': "15px", "width": "190px"}
         )
     )
+
+cards_content.append(
+    dbc.Card([
+        dbc.CardHeader("Ver en el mapa: "),
+        dbc.CardBody(
+            [
+                dcc.Dropdown(
+                    id='dimension-mapa',
+                    options=[
+                        {'label': 'Casos activos', 'value': 'Casos Activos'},
+                        {'label': 'Infectados', 'value': 'Casos'},
+                        {'label': 'Fallecidos', 'value': 'Fallecidos'},
+                        {'label': 'Recuperados', 'value': 'Recuperados'}
+                    ],
+                    placeholder="Visualizar en el mapa",
+
+                    clearable=False,
+                    value='Casos Activos',
+                    searchable=False
+                )
+            ]
+        )],
+        style={'marginTop': "15px", "width": "190px"},
+    )
+)
 
 
 fig = [go.Choroplethmapbox(geojson=communities, locations=dataset.hoy['cod_ine'], z=dataset.hoy['Casos Activos'],
@@ -105,15 +104,21 @@ page = dbc.Container(
     [
         common.navbar,
         dbc.Row([
-            dbc.Col(cards_content, width=2),
+            dbc.Col(cards_content, width=2, style={'position': 'fixed'}),
             dbc.Col(dcc.Graph(id='mapa-spain',
-                              figure={"data": fig, "layout": layout}, responsive=True), width=10)
+                              figure={"data": fig, "layout": layout}, responsive=True), width=10, style={'marginLeft': '260px'})
         ],
-            style={"paddingLeft": "10px",
+            style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'
                    }
         ),
+
         dbc.Row([
-            dbc.Col(
+            dbc.Col([html.H1("Evolución diaria", className="display-5", style={'paddingTop': '15px'}),
+                     html.P(
+                "Gráfico histórico temporal de contagios, fallecidos y recuperados con fechas clave destacadas.",
+                className="lead",
+            ),
+                html.Hr(className="my-2"),
                 dcc.Graph(figure={
                     'data': [
                         {'x': dataset.df_spain.index.to_pydatetime(),
@@ -133,9 +138,9 @@ page = dbc.Container(
                         legend=dict(orientation='h', y=1.2)
                     )
                 }
-                ), width=12)
+            )], width={"size": 10, "offset": 2})
         ],
-            style={"paddingLeft": "10px"}
+            style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'}
         )
 
 
