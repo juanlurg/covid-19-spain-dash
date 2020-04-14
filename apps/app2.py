@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -25,14 +26,19 @@ page = dbc.Container(
                     id='inc_casos_chart',
                     figure={
                         'data': [
+                            {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Casos'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
+                            {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Casos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}},
                             {
-                                'x': dataset.df_spain.index, 'y': dataset.df_spain['inc_Casos'], 'type': 'bar', 'name': 'Casos', 'text': dataset.df_spain['inc_Casos'], 'textposition': 'auto', 'marker': {'color': 'rgb(39, 128, 227)'}
+                                'x': dataset.df_spain.index.to_pydatetime(), 'y': dataset.df_spain['inc_Casos'], 'type': 'bar', 'name': 'Casos', 'text': dataset.df_spain['inc_Casos'], 'textposition': 'auto', 'marker': {'color': 'rgb(39, 128, 227)'}
                             }
+
                         ],
                         'layout': go.Layout(
                             paper_bgcolor='rgba(0,0,0,0)',
                             plot_bgcolor='rgba(0,0,0,0)',
-                            legend=dict(orientation='h', y=1.2),
+                            legend=dict(orientation='h', y=0.85),
                             margin=dict(
                                 l=0,
                                 r=0,
@@ -109,6 +115,11 @@ page = dbc.Container(
                     id='inc_casos_chart',
                     figure={
                         'data': [
+                            {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Fallecidos'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
+                            {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Fallecidos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}},
+
                             {
                                 'x': dataset.df_spain.index, 'y': dataset.df_spain['inc_Fallecidos'], 'type': 'bar', 'name': 'Fallecidos', 'text': dataset.df_spain['inc_Fallecidos'], 'textposition': 'auto', 'marker': {'color': 'rgb(55, 58, 60)'}
                             }
@@ -116,7 +127,7 @@ page = dbc.Container(
                         'layout': go.Layout(
                             paper_bgcolor='rgba(0,0,0,0)',
                             plot_bgcolor='rgba(0,0,0,0)',
-                            legend=dict(orientation='h', y=1.2),
+                            legend=dict(orientation='h', y=0.85),
                             margin=dict(
                                 l=0,
                                 r=0,
@@ -193,6 +204,11 @@ page = dbc.Container(
                     id='inc_casos_chart',
                     figure={
                         'data': [
+                            {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Recuperados'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
+                            {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Recuperados'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}},
+
                             {
                                 'x': dataset.df_spain.index, 'y': dataset.df_spain['inc_Recuperados'], 'type': 'bar', 'name': 'Recuperados', 'text': dataset.df_spain['inc_Recuperados'], 'textposition': 'auto', 'marker': {'color': 'rgb(63, 182, 24)'}
                             }
@@ -200,7 +216,7 @@ page = dbc.Container(
                         'layout': go.Layout(
                             paper_bgcolor='rgba(0,0,0,0)',
                             plot_bgcolor='rgba(0,0,0,0)',
-                            legend=dict(orientation='h', y=1.2),
+                            legend=dict(orientation='h', y=0.85),
                             margin=dict(
                                 l=0,
                                 r=0,

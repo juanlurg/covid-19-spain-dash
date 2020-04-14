@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import numpy as np
 import pandas as pd
 
@@ -79,9 +81,15 @@ class Dataset:
         self.data = []
         for comunidad in self.hoy['CCAA'].unique().tolist():
             self.data.append(
-                {'x': self.df[self.df['CCAA'] == comunidad]['Fecha'], 'y': self.df[self.df['CCAA']
-                                                                                   == comunidad]['Casos'], 'name': comunidad, 'type': 'bar'}
+                {'x': pd.DatetimeIndex(self.df[self.df['CCAA'] == comunidad]['Fecha']).to_pydatetime(
+                ), 'y': self.df[self.df['CCAA'] == comunidad]['Casos'], 'name': comunidad, 'type': 'bar'}
             )
+        self.data.append(
+            {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                0, self.df_spain['Casos'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}})
+        self.data.append(
+            {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                0, self.df_spain['Casos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}})
 
 
 dataset = Dataset(file_data)
