@@ -43,11 +43,13 @@ class Dataset:
         self.recovered = self.df_grouped['Recuperados'].iloc[-1].astype(
             np.int64)
         self.active_cases = self.infected - self.deseased - self.recovered
+
         self.inc_infected = self.infected - self.df_grouped['Casos'].iloc[-2]
         self.inc_deseased = self.deseased - \
             self.df_grouped['Fallecidos'].iloc[-2]
         self.inc_recovered = self.recovered - \
             self.df_grouped['Recuperados'].iloc[-2]
+        self.inc_active_cases = self.inc_infected - self.inc_recovered
 
     def dict_metrics(self):
         self.metrics_dict = {
@@ -57,7 +59,7 @@ class Dataset:
             "Recuperados": self.recovered
         }
         self.inc_dict = {
-            "Casos activos": self.inc_infected,
+            "Casos activos": self.inc_active_cases,
             "Infectados": self.inc_infected,
             "Fallecidos": self.inc_deseased,
             "Recuperados": self.inc_recovered
