@@ -139,7 +139,28 @@ page = dbc.Container(
                 }
             )], width={"size": 10, "offset": 2})
         ],
-            style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'}
+            style={"paddingLeft": "10px", 'height': '560px'}
+        ),
+
+        dbc.Row([
+            dbc.Col([html.H1("Evolución por comunidades", className="display-5", style={'paddingTop': '15px'}),
+                     html.P(
+                "Gráfico acumulado de casos por comunidad autónoma.",
+                className="lead",
+            ),
+                html.Hr(className="my-2"),
+                dcc.Graph(figure={
+                    'data': dataset.data,
+                    'layout': go.Layout(
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        legend=dict(orientation='h', y=1.2),
+                        barmode='stack'
+                    )
+                }
+            )], width={"size": 10, "offset": 2})
+        ],
+            style={"paddingLeft": "10px", 'height': '560px'}
         )
 
 

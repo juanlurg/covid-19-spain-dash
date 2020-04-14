@@ -35,6 +35,7 @@ class Dataset:
             self.hoy['1k_population']
         self.hoy['recuperados_1k'] = self.hoy['Recuperados'] / \
             self.hoy['1k_population']
+        self.hoy = self.hoy.sort_values(by='Casos', ascending=False)
 
     def metrics(self):
         self.df_grouped = self.df.groupby('Fecha').sum()
@@ -74,9 +75,18 @@ class Dataset:
             self.df_spain['inc_pct_{}'.format(
                 col)] = self.df_spain[col].pct_change().replace(np.inf, np.nan).dropna()
 
+    def test(self):
+        self.data = []
+        for comunidad in self.hoy['CCAA'].unique().tolist():
+            self.data.append(
+                {'x': self.df[self.df['CCAA'] == comunidad]['Fecha'], 'y': self.df[self.df['CCAA']
+                                                                                   == comunidad]['Casos'], 'name': comunidad, 'type': 'bar'}
+            )
+
 
 dataset = Dataset(file_data)
 dataset.compute_today_df()
 dataset.metrics()
 dataset.dict_metrics()
 dataset.calculate_increment_columns()
+dataset.test()
