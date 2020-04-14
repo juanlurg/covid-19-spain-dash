@@ -48,8 +48,17 @@ class Dataset:
             "Recuperados": self.inc_recovered
         }
 
+    def calculate_increment_columns(self):
+        cols = ['Casos', 'Fallecidos', 'Recuperados']
+
+        for col in cols:
+            self.df_spain['inc_{}'.format(col)] = self.df_spain[col].diff()
+            self.df_spain['inc_pct_{}'.format(
+                col)] = self.df_spain[col].pct_change()
+
 
 dataset = Dataset(file_data)
 dataset.compute_today_df()
 dataset.metrics()
 dataset.dict_metrics()
+dataset.calculate_increment_columns()
