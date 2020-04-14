@@ -36,7 +36,7 @@ page = dbc.Container(
                             margin=dict(
                                 l=0,
                                 r=0,
-                                b=0,
+                                b=15,
                                 t=0),
                             xaxis={
                                 'showgrid': False,
@@ -44,7 +44,7 @@ page = dbc.Container(
                                 'zeroline': False,
                                 'showline': False,
 
-                                'showticklabels': False
+
                             },
                             yaxis={
                                 'showgrid': False,
@@ -120,7 +120,7 @@ page = dbc.Container(
                             margin=dict(
                                 l=0,
                                 r=0,
-                                b=0,
+                                b=15,
                                 t=0),
                             xaxis={
                                 'showgrid': False,
@@ -128,15 +128,15 @@ page = dbc.Container(
                                 'zeroline': False,
                                 'showline': False,
 
-                                'showticklabels': False
+
                             },
                             yaxis={
                                 'showgrid': False,
                                 'autorange': True,
                                 'zeroline': False,
                                 'showline': False,
-
                                 'showticklabels': False
+
                             }
 
 
@@ -204,7 +204,7 @@ page = dbc.Container(
                             margin=dict(
                                 l=0,
                                 r=0,
-                                b=0,
+                                b=15,
                                 t=0),
                             xaxis={
                                 'showgrid': False,
@@ -219,7 +219,7 @@ page = dbc.Container(
                                 'autorange': True,
                                 'zeroline': False,
                                 'showline': False,
-
+                                'showticklabels': False
 
                             }
 
