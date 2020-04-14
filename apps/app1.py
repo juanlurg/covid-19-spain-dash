@@ -16,7 +16,11 @@ colors_dict = {
     "Casos activos": 'primary',
     "Infectados": 'danger',
     "Fallecidos": 'secondary',
-    "Recuperados": 'success'
+    "Recuperados": 'success',
+    "casos_activos_1k": 'primary',
+    "casos_1k": 'danger',
+    "fallecidos_1k": 'secondary',
+    "recuperados_1k": 'success',
 }
 
 
@@ -81,7 +85,15 @@ page = dbc.Container(
                         {'label': 'Casos activos', 'value': 'Casos Activos'},
                         {'label': 'Infectados', 'value': 'Casos'},
                         {'label': 'Fallecidos', 'value': 'Fallecidos'},
-                        {'label': 'Recuperados', 'value': 'Recuperados'}
+                        {'label': 'Recuperados', 'value': 'Recuperados'},
+                        {'label': 'Activos/1M poblacion',
+                            'value': 'casos_activos_1k'},
+                        {'label': 'Casos/1M poblacion', 'value': 'casos_1k'},
+
+                        {'label': 'Fallecidos/1M poblacion',
+                            'value': 'fallecidos_1k'},
+                        {'label': 'Recuperados/1M poblacion',
+                            'value': 'recuperados_1k'},
                     ],
                     placeholder="Visualizar en el mapa",
 
@@ -90,7 +102,7 @@ page = dbc.Container(
                     searchable=False,
                     style={'fontSize': '18.75px', 'marginTop': '8px'}
                 )], className="display-5",
-                    style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1'}),
+                    style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1', 'width': '280px'}),
 
                 dcc.Graph(id='mapa-spain',
                           figure={"data": fig, "layout": layout}, responsive=True)], width=10, style={'marginLeft': '260px'})
@@ -144,7 +156,11 @@ def update_mapa(selected_dimension):
         "Casos Activos": 'Blues',
         "Casos": 'OrRd',
         "Fallecidos": 'Greys',
-        "Recuperados": 'Greens'
+        "Recuperados": 'Greens',
+        "casos_activos_1k": 'Blues',
+        "casos_1k": 'OrRd',
+        "fallecidos_1k": 'Greys',
+        "recuperados_1k": 'Greens',
     }
     fig = [go.Choroplethmapbox(geojson=communities, locations=dataset.hoy['cod_ine'], z=dataset.hoy[selected_dimension],
                                featureidkey='properties.codigo',
