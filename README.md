@@ -47,11 +47,20 @@ The roadmap of the project is going to be:
 ## Getting Started
 
 1. Clone this repo (for help see this [tutorial](https://help.github.com/articles/cloning-a-repository/)).
-2. Raw Data is not being uploaded for the moment.
+2. Install requirements
+```
+pip install requirements.txt
+```
+3. Launch Dash application
+```
+python .\index.py
+```
+4. Go to http://127.0.0.1:8050/ to see the dashboard
+5. For Jupyter Notebook, navigate to notebooks folder and then
+```
+jupyter notebook
+```
 
-    *Contact repository owner for more info*
-    
-3. Start working with Jupyter Notebooks
 
 ## Featured Notebooks
 * [Exploring COVID-19 Spain Data](link)
