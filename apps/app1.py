@@ -2,6 +2,7 @@
 import json
 import locale
 import os
+from datetime import datetime
 
 import dash
 import dash_bootstrap_components as dbc
@@ -115,16 +116,21 @@ page = dbc.Container(
             dbc.Col(
                 dcc.Graph(figure={
                     'data': [
-                        {'x': dataset.df_spain.index,
+                        {'x': dataset.df_spain.index.to_pydatetime(),
                          'y': dataset.df_spain['Casos'], 'type': 'scatter', 'name': 'Casos'},
-                        {'x': dataset.df_spain.index,
+                        {'x': dataset.df_spain.index.to_pydatetime(),
                          'y': dataset.df_spain['Fallecidos'], 'type': 'scatter', 'name': 'Fallecidos'},
-                        {'x': dataset.df_spain.index,
-                         'y': dataset.df_spain['Recuperados'], 'type': 'scatter', 'name': 'Recuperados'}
+                        {'x': dataset.df_spain.index.to_pydatetime(),
+                         'y': dataset.df_spain['Recuperados'], 'type': 'scatter', 'name': 'Recuperados'},
+                        {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                            0, dataset.df_spain['Casos'].max()], 'type': 'line', 'name': 'Estado de alarma'},
+                        {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                            0, dataset.df_spain['Casos'].max()], 'type': 'line', 'name': 'Confinamiento estricto'}
                     ],
                     'layout': go.Layout(
                         paper_bgcolor='rgba(0,0,0,0)',
-                        plot_bgcolor='rgba(0,0,0,0)'
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        legend=dict(orientation='h', y=1.2)
                     )
                 }
                 ), width=12)
