@@ -64,10 +64,10 @@ page = dbc.Container(
             ], width=10),
             dbc.Col([dbc.Card(
                 dbc.CardBody(
-                    [html.H6(["Incremento promedio"],
+                    [html.H6(["Últimos 7 días"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
-                     html.H4("{:.2%}".format(
-                         dataset.df_spain['inc_pct_Casos'].mean()), className="card-title"),
+                     html.H4("🠝 {:.2%}".format(
+                         dataset.df_spain['inc_pct_Casos'].iloc[-6: -1].mean()), className="card-title"),
 
 
 
@@ -84,7 +84,7 @@ page = dbc.Container(
                 dbc.CardBody(
                     [html.H6(["Últimas 24 horas"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
-                     html.H4("{:.2%}".format(
+                     html.H4("🠝 {:.2%}".format(
                          dataset.df_spain['inc_pct_Casos'].iloc[-1]), className="card-title"),
 
 
@@ -93,9 +93,9 @@ page = dbc.Container(
 
                      ]
                 ),
-
+                outline=True,
                 color='primary',
-                inverse=True,
+
                 style={'marginTop': "15px", "width": "190px"}
             )], width=2, align='center')
         ], style={'paddingLeft': '30px', 'paddingRight': '0px', 'paddingBottom': '20px'}
@@ -148,10 +148,10 @@ page = dbc.Container(
             ], width=10),
             dbc.Col([dbc.Card(
                 dbc.CardBody(
-                    [html.H6(["Incremento promedio"],
+                    [html.H6(["Últimos 7 días"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
-                     html.H4("{:.2%}".format(
-                         dataset.df_spain['inc_pct_Fallecidos'].mean()), className="card-title"),
+                     html.H4("🠝 {:.2%}".format(
+                         dataset.df_spain['inc_pct_Fallecidos'].iloc[-6: -1].mean()), className="card-title"),
 
 
 
@@ -168,7 +168,7 @@ page = dbc.Container(
                 dbc.CardBody(
                     [html.H6(["Últimas 24 horas"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
-                     html.H4("{:.2%}".format(
+                     html.H4("🠝 {:.2%}".format(
                          dataset.df_spain['inc_pct_Fallecidos'].iloc[-1]), className="card-title"),
 
 
@@ -177,9 +177,9 @@ page = dbc.Container(
 
                      ]
                 ),
-
+                outline=True,
                 color='secondary',
-                inverse=True,
+
                 style={'marginTop': "15px", "width": "190px"}
             )], width=2, align='center')
         ], style={'paddingLeft': '30px', 'paddingRight': '0px', 'paddingBottom': '20px'}
@@ -232,10 +232,10 @@ page = dbc.Container(
             ], width=10),
             dbc.Col([dbc.Card(
                 dbc.CardBody(
-                    [html.H6(["Incremento promedio"],
+                    [html.H6(["Últimos 7 días"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
-                     html.H4("{:.2%}".format(
-                         dataset.df_spain['inc_pct_Recuperados'].mean()), className="card-title"),
+                     html.H4("🠝 {:.2%}".format(
+                         dataset.df_spain['inc_pct_Recuperados'].iloc[-6: -1].mean()), className="card-title"),
 
 
 
@@ -252,7 +252,7 @@ page = dbc.Container(
                 dbc.CardBody(
                     [html.H6(["Últimas 24 horas"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
-                     html.H4("{:.2%}".format(
+                     html.H4("🠝 {:.2%}".format(
                          dataset.df_spain['inc_pct_Recuperados'].iloc[-1]), className="card-title"),
 
 
@@ -261,9 +261,9 @@ page = dbc.Container(
 
                      ]
                 ),
-
+                outline=True,
                 color='success',
-                inverse=True,
+
                 style={'marginTop': "15px", "width": "190px"}
             )], width=2, align='center')
         ], style={'paddingLeft': '30px', 'paddingRight': '0px'}

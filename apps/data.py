@@ -52,9 +52,10 @@ class Dataset:
         cols = ['Casos', 'Fallecidos', 'Recuperados']
 
         for col in cols:
-            self.df_spain['inc_{}'.format(col)] = self.df_spain[col].diff()
+            self.df_spain['inc_{}'.format(
+                col)] = self.df_spain[col].diff()
             self.df_spain['inc_pct_{}'.format(
-                col)] = self.df_spain[col].pct_change()
+                col)] = self.df_spain[col].pct_change().replace(np.inf, np.nan).dropna()
 
 
 dataset = Dataset(file_data)
