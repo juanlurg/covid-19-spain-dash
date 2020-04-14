@@ -51,5 +51,6 @@ navbar = dbc.NavbarSimple(
     color="primary",
     dark=True,
     fluid=True,
-    sticky='top'
+    sticky='top',
+    style={'zIndex': '999'}
 )

@@ -49,31 +49,6 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
         )
     )
 
-cards_content.append(
-    dbc.Card([
-        dbc.CardHeader("Ver en el mapa: "),
-        dbc.CardBody(
-            [
-                dcc.Dropdown(
-                    id='dimension-mapa',
-                    options=[
-                        {'label': 'Casos activos', 'value': 'Casos Activos'},
-                        {'label': 'Infectados', 'value': 'Casos'},
-                        {'label': 'Fallecidos', 'value': 'Fallecidos'},
-                        {'label': 'Recuperados', 'value': 'Recuperados'}
-                    ],
-                    placeholder="Visualizar en el mapa",
-
-                    clearable=False,
-                    value='Casos Activos',
-                    searchable=False
-                )
-            ]
-        )],
-        style={'marginTop': "15px", "width": "190px"},
-    )
-)
-
 
 fig = [go.Choroplethmapbox(geojson=communities, locations=dataset.hoy['cod_ine'], z=dataset.hoy['Casos Activos'],
                            featureidkey='properties.codigo',
@@ -99,8 +74,26 @@ page = dbc.Container(
         common.navbar,
         dbc.Row([
             dbc.Col(cards_content, width=2, style={'position': 'fixed'}),
-            dbc.Col(dcc.Graph(id='mapa-spain',
-                              figure={"data": fig, "layout": layout}, responsive=True), width=10, style={'marginLeft': '260px'})
+            dbc.Col([
+                html.H1(["Vista de mapa", dcc.Dropdown(
+                    id='dimension-mapa',
+                    options=[
+                        {'label': 'Casos activos', 'value': 'Casos Activos'},
+                        {'label': 'Infectados', 'value': 'Casos'},
+                        {'label': 'Fallecidos', 'value': 'Fallecidos'},
+                        {'label': 'Recuperados', 'value': 'Recuperados'}
+                    ],
+                    placeholder="Visualizar en el mapa",
+
+                    clearable=False,
+                    value='Casos Activos',
+                    searchable=False,
+                    style={'fontSize': '18.75px', 'marginTop': '8px'}
+                )], className="display-5",
+                    style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1'}),
+
+                dcc.Graph(id='mapa-spain',
+                          figure={"data": fig, "layout": layout}, responsive=True)], width=10, style={'marginLeft': '260px'})
         ],
             style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'
                    }
