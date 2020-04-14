@@ -9,6 +9,7 @@ app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ])
+app.title = 'Datos de España - COVID-19'
 
 server = app.server
 @app.callback(Output('page-content', 'children'),
