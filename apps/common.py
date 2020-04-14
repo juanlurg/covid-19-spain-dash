@@ -33,6 +33,7 @@ navbar = dbc.NavbarSimple(
                  El código desarrollado para este proyecto, así como otros Jupyter Notebooks usados para analizar el estado de los datos de la pandemia en España están disponibles en [el repositorio del proyecto](https://github.com/juanlurg/covid-19-spain-dash), en la web podrá encontrar artículos explicando paso a paso el desarrollo. Principalmente para este proyecto se ha usado Python con Dash, plotly y pandas.
 
                  Realizado por [**Juan Luis Ramirez**](https://github.com/juanlurg)
+                 
                  Contacto: [**juanlu.rgarcia@gmail.com**](mailto:juanlu.rgarcia@gmail.com)
                 ''')),
                 dbc.ModalFooter(
