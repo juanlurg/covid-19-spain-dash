@@ -16,7 +16,7 @@ page = dbc.Container(
         dbc.Row(
             dbc.Col(dbc.Alert(
                 [
-                    html.H4("¡Espera un poco!", className="alert-heading"),
+                    html.H4("¡Uuuuy!", className="alert-heading"),
                     html.P(
                         "Este contenido aún no está disponible, si deseas colaborar pincha en el icono de la interrogación de arriba ;) "
 

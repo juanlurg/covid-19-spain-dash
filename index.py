@@ -2,9 +2,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-from app import app
-from apps import app1, app2
-from app import server
+from app import app, server
+from apps import app1, app2, app3, app4
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
@@ -17,7 +16,10 @@ server = app.server
 def display_page(pathname):
     if pathname == '/incrementos':
         return app2.page
-
+    elif pathname == '/comunidad':
+        return app3.page
+    elif pathname == '/modelos':
+        return app4.page
     else:
         return app1.page
 
