@@ -17,12 +17,15 @@ from apps.data import dataset
 navbar = dbc.NavbarSimple(
     children=[
 
-        dbc.NavItem(dbc.NavLink("Incrementos diarios", href="incrementos")),
-        dbc.NavItem(dbc.NavLink("Detalle comunidad", href='comunidad')),
-        dbc.NavItem(dbc.NavLink("Modelos matemáticos", href='modelos')),
+        dbc.NavItem(dbc.NavLink("📈 Incrementos diarios",
+                                id='tooltip-inc', href="incrementos")),
+        dbc.NavItem(dbc.NavLink("🏠 Detalle comunidad",
+                                id='tooltip-comunidad', href='comunidad')),
+        dbc.NavItem(dbc.NavLink("🧾 Modelos matemáticos",
+                                id='tooltip-modelos', href='modelos')),
         dbc.NavItem(
-            dbc.NavLink(html.I(className="fas fa-question-circle",
-                               id="open"), href="#"),
+            dbc.NavLink("🧔",
+                        id="open", href="#"), id='sobremi'
         ),
         dbc.Modal(
             [
@@ -42,6 +45,22 @@ navbar = dbc.NavbarSimple(
             ],
             id="modal",
             centered=True
+        ),
+        dbc.Tooltip(
+            "Visualice los incrementos diarios de contagios, fallecidos y recuperados",
+            target="tooltip-inc",
+        ),
+        dbc.Tooltip(
+            "Vista concreta del estado de cada comunidad",
+            target="tooltip-comunidad",
+        ),
+        dbc.Tooltip(
+            "Usando modelos matemáticos para predecir la evolución de la pandemia",
+            target="tooltip-modelos",
+        ),
+        dbc.Tooltip(
+            "¿Quién soy?",
+            target="sobremi",
         ),
 
     ],

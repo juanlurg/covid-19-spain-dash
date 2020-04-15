@@ -161,7 +161,7 @@ page = dbc.Container(
             )], width={"size": 10, "offset": 2})
         ],
             style={"paddingLeft": "10px", 'height': '560px'}
-        )
+        ),
 
 
     ],
