@@ -124,7 +124,9 @@ def update_daily_evolution(comunidad):
             {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
                 0, dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
             {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
-                0, dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}}
+                0, dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}},
+            {'x': [datetime.strptime('2020-04-13 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-04-13 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                0, dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].max()], 'type': 'line', 'name': 'Vuelta al trabajo', 'line': {'color': 'rgb(100, 105, 109) ', 'width': '4', 'dash': 'dot'}}
         ],
         'layout': go.Layout(
             paper_bgcolor='rgba(0,0,0,0)',

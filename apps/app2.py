@@ -30,6 +30,8 @@ page = dbc.Container(
                                 0,  dataset.df_spain['inc_Casos'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
                             {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
                                 0,  dataset.df_spain['inc_Casos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}},
+                            {'x': [datetime.strptime('2020-04-13 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-04-13 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Casos'].max()], 'type': 'line', 'name': 'Vuelta al trabajo', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
                             {
                                 'x': dataset.df_spain.index.to_pydatetime(), 'y': dataset.df_spain['inc_Casos'], 'type': 'bar', 'name': 'Casos', 'text': dataset.df_spain['inc_Casos'], 'textposition': 'auto', 'marker': {'color': 'rgb(39, 128, 227)'}
                             }
@@ -119,7 +121,8 @@ page = dbc.Container(
                                 0,  dataset.df_spain['inc_Fallecidos'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
                             {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
                                 0,  dataset.df_spain['inc_Fallecidos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}},
-
+                            {'x': [datetime.strptime('2020-04-13 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-04-13 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Fallecidos'].max()], 'type': 'line', 'name': 'Vuelta al trabajo', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
                             {
                                 'x': dataset.df_spain.index, 'y': dataset.df_spain['inc_Fallecidos'], 'type': 'bar', 'name': 'Fallecidos', 'text': dataset.df_spain['inc_Fallecidos'], 'textposition': 'auto', 'marker': {'color': 'rgb(55, 58, 60)'}
                             }
@@ -208,6 +211,8 @@ page = dbc.Container(
                                 0,  dataset.df_spain['inc_Recuperados'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
                             {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
                                 0,  dataset.df_spain['inc_Recuperados'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}},
+                            {'x': [datetime.strptime('2020-04-13 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-04-13 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                0,  dataset.df_spain['inc_Recuperados'].max()], 'type': 'line', 'name': 'Vuelta al trabajo', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
 
                             {
                                 'x': dataset.df_spain.index, 'y': dataset.df_spain['inc_Recuperados'], 'type': 'bar', 'name': 'Recuperados', 'text': dataset.df_spain['inc_Recuperados'], 'textposition': 'auto', 'marker': {'color': 'rgb(63, 182, 24)'}
