@@ -13,13 +13,13 @@ from apps import common
 from apps.data import dataset
 
 colors_dict = {
-    "Casos activos": 'primary',
+    "Casos activos": 'info',
     "Infectados": 'danger',
-    "Fallecidos": 'secondary',
+    "Fallecidos": 'primary',
     "Recuperados": 'success',
-    "casos_activos_1k": 'primary',
+    "casos_activos_1k": 'info',
     "casos_1k": 'danger',
-    "fallecidos_1k": 'secondary',
+    "fallecidos_1k": 'primary',
     "recuperados_1k": 'success',
 }
 
@@ -36,9 +36,9 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
             dbc.CardBody(
                 [html.H6([metric],
                          className="card-subtitle", style={'marginBottom': '5px'}),
-                    html.H4("{:n}".format(
-                        value), className="card-title"),
-                    html.H6(["🠝", dataset.inc_dict[metric], " (24h.)"],
+                    html.H4("{:,}".format(
+                        value).replace(",", "."), className="card-title"),  # Heroku only allows EN-us locale in apps so workaround to format numbers following spanish way
+                    html.H6(["🠝 {0:,g} (24h.)".format(dataset.inc_dict[metric]).replace(',', '.')],
                             className="card-subtitle"),
 
 

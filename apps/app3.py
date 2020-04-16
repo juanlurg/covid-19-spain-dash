@@ -15,13 +15,13 @@ from apps import common
 from apps.data import dataset
 
 colors_dict = {
-    "Casos activos": 'primary',
+    "Casos activos": 'info',
     "Infectados": 'danger',
-    "Fallecidos": 'secondary',
+    "Fallecidos": 'primary',
     "Recuperados": 'success',
-    "casos_activos_1k": 'primary',
+    "casos_activos_1k": 'info',
     "casos_1k": 'danger',
-    "fallecidos_1k": 'secondary',
+    "fallecidos_1k": 'primary',
     "recuperados_1k": 'success',
 }
 
@@ -211,21 +211,21 @@ def update_daily_increment(comunidad):
     Output('val_Infectados', 'children'),  [Input('comunidad-drop', 'value')]
 )
 def value_infectados(comunidad):
-    return dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-1]
+    return "{0:,g}".format(dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-1]).replace(",", ".")
 
 
 @app.callback(
     Output('val_Fallecidos', 'children'),  [Input('comunidad-drop', 'value')]
 )
 def value_fallecidos(comunidad):
-    return dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-1]
+    return "{0:,g}".format(dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-1]).replace(",", ".")
 
 
 @app.callback(
     Output('val_Recuperados', 'children'),  [Input('comunidad-drop', 'value')]
 )
 def value_recuperados(comunidad):
-    return dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-1]
+    return "{0:,g}".format(dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-1]).replace(",", ".")
 
 
 @app.callback(
@@ -239,25 +239,25 @@ def value_activos(comunidad):
     recuperados = dataset.df[dataset.df['CCAA']
                              == comunidad]['Recuperados'].iloc[-1]
 
-    return casos - fallecidos - recuperados
+    return "{0:,g}".format(casos - fallecidos - recuperados).replace(",", ".")
 
 
 @app.callback(
     Output('inc_Infectados', 'children'),  [Input('comunidad-drop', 'value')]
 )
 def inc_infectados(comunidad):
-    return "🠝 " + str(dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-2]) + " (24h)"
+    return "🠝 {0:,g} (24h)".format(dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-2]).replace(',', '.')
 
 
 @app.callback(
     Output('inc_Fallecidos', 'children'),  [Input('comunidad-drop', 'value')]
 )
 def inc_fallecidos(comunidad):
-    return "🠝 " + str(dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-2]) + " (24h)"
+    return "🠝 {0:,g} (24h)".format(dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-2]).replace(',', '.')
 
 
 @app.callback(
     Output('inc_Recuperados', 'children'),  [Input('comunidad-drop', 'value')]
 )
 def inc_recuperados(comunidad):
-    return "🠝 " + str(dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-2]) + " (24h)"
+    return "🠝 {0:,g} (24h)".format(dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-2]).replace(',', '.')

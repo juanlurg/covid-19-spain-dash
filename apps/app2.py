@@ -82,7 +82,7 @@ page = dbc.Container(
                      ]
                 ),
 
-                color='primary',
+                color='info',
                 inverse=True,
                 style={'marginTop': "15px", "width": "190px"}
             ),
@@ -100,7 +100,7 @@ page = dbc.Container(
                      ]
                 ),
                 outline=True,
-                color='primary',
+                color='info',
 
                 style={'marginTop': "15px", "width": "190px"}
             )], width=2, align='center')
@@ -171,7 +171,7 @@ page = dbc.Container(
                      ]
                 ),
 
-                color='secondary',
+                color='primary',
                 inverse=True,
                 style={'marginTop': "15px", "width": "190px"}
             ),
@@ -189,7 +189,7 @@ page = dbc.Container(
                      ]
                 ),
                 outline=True,
-                color='secondary',
+                color='primary',
 
                 style={'marginTop': "15px", "width": "190px"}
             )], width=2, align='center')
