@@ -59,7 +59,7 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
                 [html.H6([metric],
                          className="card-subtitle", style={'marginBottom': '5px', 'fontSize': '60px'}),
                     html.H4("{:,}".format(
-                        value).replace(",", "."), className="card-title", style={'fontSize': '100px'}),  # Heroku only allows EN-us locale in apps so workaround to format numbers following spanish way
+                        value).replace(",", "."), className="card-title", style={'fontSize': '80px'}),  # Heroku only allows EN-us locale in apps so workaround to format numbers following spanish way
                     html.H6(["🠝 {0:,g} (24h.)".format(dataset.inc_dict[metric]).replace(',', '.')],
                             className="card-subtitle", style={'fontSize': '60px'}),
 
@@ -99,6 +99,7 @@ layout = go.Layout(mapbox_style="carto-positron",
 page = dbc.Container(
     [
         common.navbar,
+        common.nav_mob,
         dbc.Row([
             dbc.Col(cards_content, width=2, style={
                     'position': 'fixed'}, className='hide-mobile h-100', md=12, lg=2),
@@ -240,7 +241,7 @@ page = dbc.Container(
             ], lg={"size": 10, "offset": 2}, md={"size": 12, "offset": 0}, className='h-100')
         ],
             style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'},
-            className="d-sm-block d-lg-none d-lg-none d-lg-none"
+            className="d-sm-block d-lg-none"
         )
 
 
