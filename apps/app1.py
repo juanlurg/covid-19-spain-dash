@@ -29,6 +29,7 @@ with open('geo.json') as response:
 
 
 cards_content = []
+cards_mobile = []
 
 for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
     cards_content.append(
@@ -49,7 +50,29 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
 
             color=colors_dict[metric],
             inverse=True,
-            style={'marginTop': "15px", "width": "190px"}
+            style={'marginTop': "15px"}
+        )
+    )
+    cards_mobile.append(
+        dbc.Card(
+            dbc.CardBody(
+                [html.H6([metric],
+                         className="card-subtitle", style={'marginBottom': '5px', 'fontSize': '60px'}),
+                    html.H4("{:,}".format(
+                        value).replace(",", "."), className="card-title", style={'fontSize': '140px'}),  # Heroku only allows EN-us locale in apps so workaround to format numbers following spanish way
+                    html.H6(["🠝 {0:,g} (24h.)".format(dataset.inc_dict[metric]).replace(',', '.')],
+                            className="card-subtitle", style={'fontSize': '60px'}),
+
+
+
+
+                 ],
+                style={'padding': '45px'}
+            ),
+
+            color=colors_dict[metric],
+            inverse=True,
+            style={'marginTop': "15px", 'height': "20vh"}
         )
     )
 
@@ -77,7 +100,8 @@ page = dbc.Container(
     [
         common.navbar,
         dbc.Row([
-            dbc.Col(cards_content, width=2, style={'position': 'fixed'}),
+            dbc.Col(cards_content, width=2, style={
+                    'position': 'fixed'}, className='hide-mobile h-100', md=12, lg=2),
             dbc.Col([
                 html.H1(["Vista de mapa", dcc.Dropdown(
                     id='dimension-mapa',
@@ -105,10 +129,12 @@ page = dbc.Container(
                     style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1', 'width': '280px'}),
 
                 dcc.Graph(id='mapa-spain',
-                          figure={"data": fig, "layout": layout}, responsive=True)], width=10, style={'marginLeft': '260px'})
+                          figure={"data": fig, "layout": layout}, responsive=True)], width={'size': 10, 'offset': 2}, className='d-sm-none d-lg-block', style={'height': 'calc(100vh - 55px)'
+                                                                                                                                                               })
         ],
             style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'
-                   }
+                   },
+            className='d-sm-none d-lg-block'
         ),
 
         dbc.Row([
@@ -137,9 +163,10 @@ page = dbc.Container(
                         legend=dict(orientation='h', y=1.2)
                     )
                 }
-            )], width={"size": 10, "offset": 2})
+            )], lg={"size": 10, "offset": 2}, md={"size": 12, "offset": 0})
         ],
-            style={"paddingLeft": "10px", 'height': '560px'}
+            style={"paddingLeft": "10px", 'height': '560px'},
+            className="d-sm-none d-lg-block"
         ),
 
         dbc.Row([
@@ -160,8 +187,61 @@ page = dbc.Container(
                 }
             )], width={"size": 10, "offset": 2})
         ],
-            style={"paddingLeft": "10px", 'height': '560px'}
+            style={"paddingLeft": "10px", 'height': '560px'},
+            className="d-sm-none d-lg-block"
         ),
+        dbc.Row([
+            dbc.Col(cards_mobile, width=2,
+                    className='hide-mobile h-100', md=12, lg=2),
+
+        ],
+            style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'
+                   },
+            className="d-sm-block d-lg-none"
+        ),
+        dbc.Row([
+            dbc.Col([html.H1("Evolución diaria", className="display-5", style={'paddingTop': '15px', 'fontSize': '70px'}),
+
+                     dcc.Graph(figure={
+                         'data': [
+                             {'x': dataset.df_spain.index.to_pydatetime(),
+                              'y': dataset.df_spain['Casos'], 'type': 'scatter', 'name': 'Casos',  'marker': {'color': 'rgb(39, 128, 227)'}},
+                             {'x': dataset.df_spain.index.to_pydatetime(),
+                              'y': dataset.df_spain['Fallecidos'], 'type': 'scatter', 'name': 'Fallecidos', 'marker': {'color': 'rgb(55, 58, 60)'}},
+                             {'x': dataset.df_spain.index.to_pydatetime(),
+                              'y': dataset.df_spain['Recuperados'], 'type': 'scatter', 'name': 'Recuperados', 'marker': {'color': 'rgb(63, 182, 24)'}},
+                             {'x': [datetime.strptime('2020-03-14 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-14 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                 0, dataset.df_spain['Casos'].max()], 'type': 'line', 'name': 'Estado de alarma', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
+                             {'x': [datetime.strptime('2020-03-29 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-03-29 00:01', '%Y-%m-%d %H:%M')], 'y': [
+                                 0, dataset.df_spain['Casos'].max()], 'type': 'line', 'name': 'Confinamiento estricto', 'line': {'color': 'rgb(143, 147, 150)', 'width': '4', 'dash': 'dot'}}
+                         ],
+                         'layout': go.Layout(
+                             paper_bgcolor='rgba(0,0,0,0)',
+                             plot_bgcolor='rgba(0,0,0,0)',
+                             legend=dict(orientation='h', y=1.2)
+                         ),
+
+                     }, responsive=True,
+                style={'height': '42%'}
+            ),
+                html.H1("Evolución por comunidades",
+                        className="display-5", style={'paddingTop': '15px', 'fontSize': '70px'}),
+                dcc.Graph(figure={
+                    'data': dataset.data,
+                    'layout': go.Layout(
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        legend=dict(orientation='h', y=1.2),
+                        barmode='stack'
+                    )
+                },
+                style={'height': '42%'}
+            )
+            ], lg={"size": 10, "offset": 2}, md={"size": 12, "offset": 0}, className='h-100')
+        ],
+            style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'},
+            className="d-sm-block d-lg-none d-lg-none d-lg-none"
+        )
 
 
     ],
