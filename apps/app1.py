@@ -59,7 +59,7 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
                 [html.H6([metric],
                          className="card-subtitle", style={'marginBottom': '5px', 'fontSize': '60px'}),
                     html.H4("{:,}".format(
-                        value).replace(",", "."), className="card-title", style={'fontSize': '140px'}),  # Heroku only allows EN-us locale in apps so workaround to format numbers following spanish way
+                        value).replace(",", "."), className="card-title", style={'fontSize': '100px'}),  # Heroku only allows EN-us locale in apps so workaround to format numbers following spanish way
                     html.H6(["🠝 {0:,g} (24h.)".format(dataset.inc_dict[metric]).replace(',', '.')],
                             className="card-subtitle", style={'fontSize': '60px'}),
 
