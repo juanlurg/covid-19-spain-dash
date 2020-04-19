@@ -81,7 +81,7 @@ page = dbc.Container(
                 ),
                     html.Hr(className="my-2"),
                     dcc.Graph(
-                        id='daily-evolution', style={'marginTop': '15px', 'height': '280px'}
+                        id='daily-evolution', style={'marginTop': '15px', 'height': '280px'}, animate=True,
                 )], width={"size": 10, "offset": 2})
                 ],
                 style={"paddingLeft": "10px", 'paddingBottom': '20px'}
@@ -96,7 +96,7 @@ page = dbc.Container(
                 html.Hr(className="my-2"),
                 dcc.Graph(
                     id='daily-increment',
-                    style={'marginTop': '15px', 'height': '280px'}
+                    style={'marginTop': '15px', 'height': '280px'}, animate=True,
             )], width={"size": 10, "offset": 2})
         ],
             style={"paddingLeft": "10px", 'paddingBottom': '20px'}
@@ -150,7 +150,8 @@ def update_daily_evolution(comunidad):
                 'autorange': True,
                 'zeroline': False,
                 'showline': False,
-                'showticklabels': False
+                'showticklabels': False,
+                'range': [0, dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].max() + 20]
 
             }
         )
@@ -202,8 +203,8 @@ def update_daily_increment(comunidad):
                 'autorange': True,
                 'zeroline': False,
                 'showline': False,
-                'showticklabels': False
-
+                'showticklabels': False,
+                'range': [0, df['Casos'].diff().max() + 10]
             }
         )
     }

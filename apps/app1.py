@@ -127,7 +127,7 @@ page = dbc.Container(
                     searchable=False,
                     style={'fontSize': '18.75px', 'marginTop': '8px'}
                 )], className="display-5",
-                    style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1', 'width': '280px'}),
+                    style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1', 'width': '350px'}),
 
                 dcc.Graph(id='mapa-spain',
                           figure={"data": fig, "layout": layout}, responsive=True)], width={'size': 10, 'offset': 2}, className='d-sm-none d-lg-block', style={'height': 'calc(100vh - 55px)'
@@ -187,7 +187,8 @@ page = dbc.Container(
                         legend=dict(orientation='h', y=1.2),
                         barmode='stack'
                     )
-                }
+                },
+                animate=True
             )], width={"size": 10, "offset": 2})
         ],
             style={"paddingLeft": "10px", 'height': '560px'},

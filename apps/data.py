@@ -25,6 +25,8 @@ class Dataset(object):
         '''
         self.df = pd.read_csv(url)
         self.df['Fecha'] = pd.to_datetime(self.df['Fecha'])
+        self.df['Casos Activos'] = self.df['Casos'] - \
+            self.df['Fallecidos'] - self.df['Recuperados']
         self.compute_today_df()
         self.df_spain = self.df.groupby('Fecha').sum()
         self.df_spain = self.df_spain.drop(columns=['cod_ine'])
