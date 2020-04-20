@@ -9,12 +9,23 @@ app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ])
+
 app.title = 'Datos de España - COVID-19'
 
 server = app.server
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
+    '''
+
+    Depeding on the pathname we serve the layout
+
+    Dash Callback:
+
+    @input: url, pathname
+    @output: page-content, children
+
+    '''
     if pathname == '/incrementos':
         return app2.page
     elif pathname == '/comunidad':

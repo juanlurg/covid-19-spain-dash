@@ -267,8 +267,8 @@ def update_mapa(selected_dimension):
     Update Choropleth Mapbox based on the dropdown selection
 
     Dash callback:
-    - Input: Dropdown element, value
-    - Output: Dash Core Components Graph, figure
+    @input: Dropdown element, value
+    @output: Dash Core Components Graph, figure
     '''
     color_scale_dict = {
         "Casos Activos": 'Blues',
