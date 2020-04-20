@@ -14,6 +14,7 @@ from app import app
 from apps import common
 from apps.data import dataset
 
+# Every metrics has CSS class attached
 colors_dict = {
     "Casos activos": 'info',
     "Infectados": 'danger',
@@ -25,12 +26,13 @@ colors_dict = {
     "recuperados_1k": 'success',
 }
 
-
+# Load GeoJSON shapes from file
 with open('geo.json') as response:
     communities = json.load(response)
 
 option_com = []
 
+# Create options for Dropdown menu with communities unique values
 for comunidad in dataset.hoy['CCAA'].sort_values().unique().tolist():
     option_com.append(
         {'label': comunidad, 'value': comunidad}
@@ -45,6 +47,8 @@ cards_content = [dcc.Dropdown(
     style={'fontSize': '18.75px', 'marginTop': '12px', 'width': '190px'}
 )]
 
+
+# Create metrics card based on dataset.metrics_dict
 for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
     cards_content.append(
         dbc.Card(
@@ -55,10 +59,6 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
                         metric), className="card-title"),
                     html.H6(["🠝 0 (24h.)"],
                             className="card-subtitle", id="inc_{}".format(metric)),
-
-
-
-
                  ]
             ),
 
@@ -72,6 +72,8 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
 page = dbc.Container(
     [
         common.navbar,
+
+        # Daily evolution chart
         dbc.Row([
             dbc.Col(cards_content, width=2, style={'position': 'fixed'}),
                 dbc.Col([html.H1("Evolución diaria", className="display-5", style={'paddingTop': '15px'}),
@@ -87,6 +89,7 @@ page = dbc.Container(
                 style={"paddingLeft": "10px", 'paddingBottom': '20px'}
                 ),
 
+        # Daily stacked chart
         dbc.Row([
             dbc.Col([html.H1("Incrementos diarios", className="display-5", style={'paddingTop': '15px'}),
                      html.P(
@@ -110,9 +113,19 @@ page = dbc.Container(
 
 
 @app.callback(
-    Output('daily-evolution', 'figure'), [Input('comunidad-drop', 'value')]
+    Output('daily-evolution', 'figure'),
+    [Input('comunidad-drop', 'value')]
 )
 def update_daily_evolution(comunidad):
+    '''
+
+    Update daily evolution chart on dropdown selected value change
+
+    Dash callback:
+    @input: dropdown, value
+    @output: dcc.Graph, figure
+
+    '''
     return {
         'data': [
             {'x': pd.DatetimeIndex(dataset.df[dataset.df['CCAA'] == comunidad]['Fecha']).to_pydatetime(),
@@ -159,9 +172,19 @@ def update_daily_evolution(comunidad):
 
 
 @app.callback(
-    Output('daily-increment', 'figure'), [Input('comunidad-drop', 'value')]
+    Output('daily-increment', 'figure'),
+    [Input('comunidad-drop', 'value')]
 )
 def update_daily_increment(comunidad):
+    '''
+
+    Update daily stacked chart on dropdown selected value change
+
+    Dash callback:
+    @input: dropdown, value
+    @output: dcc.Graph, figure
+
+    '''
     df = dataset.df[dataset.df['CCAA'] == comunidad]
     data = []
     cols = ['Casos', 'Fallecidos', 'Recuperados']
@@ -211,31 +234,34 @@ def update_daily_increment(comunidad):
 
 
 @app.callback(
-    Output('val_Infectados', 'children'),  [Input('comunidad-drop', 'value')]
+    Output('val_Infectados', 'children'),
+    [Input('comunidad-drop', 'value')]
 )
-def value_infectados(comunidad):
+def value_infectados(comunidad):  # Update card metric when community changes
     return "{0:,g}".format(dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-1]).replace(",", ".")
 
 
 @app.callback(
-    Output('val_Fallecidos', 'children'),  [Input('comunidad-drop', 'value')]
+    Output('val_Fallecidos', 'children'),
+    [Input('comunidad-drop', 'value')]
 )
-def value_fallecidos(comunidad):
+def value_fallecidos(comunidad):  # Update card metric when community changes
     return "{0:,g}".format(dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-1]).replace(",", ".")
 
 
 @app.callback(
-    Output('val_Recuperados', 'children'),  [Input('comunidad-drop', 'value')]
+    Output('val_Recuperados', 'children'),
+    [Input('comunidad-drop', 'value')]
 )
-def value_recuperados(comunidad):
+def value_recuperados(comunidad):  # Update card metric when community changes
     return "{0:,g}".format(dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-1]).replace(",", ".")
 
 
 @app.callback(
-    Output('val_Casos activos', 'children'),  [
-        Input('comunidad-drop', 'value')]
+    Output('val_Casos activos', 'children'),
+    [Input('comunidad-drop', 'value')]
 )
-def value_activos(comunidad):
+def value_activos(comunidad):  # Update card metric when community changes
     casos = dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-1]
     fallecidos = dataset.df[dataset.df['CCAA']
                             == comunidad]['Fallecidos'].iloc[-1]
@@ -246,21 +272,24 @@ def value_activos(comunidad):
 
 
 @app.callback(
-    Output('inc_Infectados', 'children'),  [Input('comunidad-drop', 'value')]
+    Output('inc_Infectados', 'children'),
+    [Input('comunidad-drop', 'value')]
 )
-def inc_infectados(comunidad):
+def inc_infectados(comunidad):  # Update card metric when community changes
     return "🠝 {0:,g} (24h)".format(dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Casos'].iloc[-2]).replace(',', '.')
 
 
 @app.callback(
-    Output('inc_Fallecidos', 'children'),  [Input('comunidad-drop', 'value')]
+    Output('inc_Fallecidos', 'children'),
+    [Input('comunidad-drop', 'value')]
 )
-def inc_fallecidos(comunidad):
+def inc_fallecidos(comunidad):  # Update card metric when community changes
     return "🠝 {0:,g} (24h)".format(dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Fallecidos'].iloc[-2]).replace(',', '.')
 
 
 @app.callback(
-    Output('inc_Recuperados', 'children'),  [Input('comunidad-drop', 'value')]
+    Output('inc_Recuperados', 'children'),
+    [Input('comunidad-drop', 'value')]
 )
-def inc_recuperados(comunidad):
+def inc_recuperados(comunidad):  # Update card metric when community changes
     return "🠝 {0:,g} (24h)".format(dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-1] - dataset.df[dataset.df['CCAA'] == comunidad]['Recuperados'].iloc[-2]).replace(',', '.')
