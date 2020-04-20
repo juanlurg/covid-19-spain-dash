@@ -15,13 +15,11 @@ page = dbc.Container(
     [
         common.navbar,
         dbc.Row([
-
-
-
             dbc.Col([
                 html.H3("Incremento de Casos", className="display-6",
                         style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1'}),
 
+                # Daily new cases chart
                 dcc.Graph(
                     id='inc_casos_chart',
                     figure={
@@ -33,9 +31,9 @@ page = dbc.Container(
                             {'x': [datetime.strptime('2020-04-13 00:00', '%Y-%m-%d %H:%M'), datetime.strptime('2020-04-13 00:01', '%Y-%m-%d %H:%M')], 'y': [
                                 0,  dataset.df_spain['inc_Casos'].max()], 'type': 'line', 'name': 'Vuelta al trabajo', 'line': {'color': 'rgb(100, 105, 109)', 'width': '4', 'dash': 'dot'}},
                             {
-                                'x': dataset.df_spain.index.to_pydatetime(), 'y': dataset.df_spain['inc_Casos'], 'type': 'bar', 'name': 'Casos', 'text': dataset.df_spain['inc_Casos'], 'textposition': 'auto', 'marker': {'color': 'rgb(39, 128, 227)'}
+                                'x': dataset.df_spain.index.to_pydatetime(), 'y': dataset.df_spain['inc_Casos'], 'type': 'bar', 'name': 'Casos', 'text': dataset.df_spain['inc_Casos'],
+                                'textposition': 'auto', 'marker': {'color': 'rgb(39, 128, 227)'}
                             }
-
                         ],
                         'layout': go.Layout(
                             paper_bgcolor='rgba(0,0,0,0)',
@@ -51,39 +49,27 @@ page = dbc.Container(
                                 'autorange': True,
                                 'zeroline': False,
                                 'showline': False,
-
-
                             },
                             yaxis={
                                 'showgrid': False,
                                 'autorange': True,
                                 'zeroline': False,
                                 'showline': False,
-
                                 'showticklabels': False
                             }
-
-
                         )
                     }, style={'marginTop': '15px', 'height': '250px'}
                 )
-
-
             ], width=10),
+
+            # Cards with last 7 days and last 24h summary metric
             dbc.Col([dbc.Card(
                 dbc.CardBody(
                     [html.H6(["Últimos 7 días"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
                      html.H4("🠝 {:.2%}".format(
-                         dataset.df_spain['inc_pct_Casos'].iloc[-6: -1].mean()), className="card-title"),
-
-
-
-
-
-                     ]
+                         dataset.df_spain['inc_pct_Casos'].iloc[-6: -1].mean()), className="card-title")]
                 ),
-
                 color='info',
                 inverse=True,
                 style={'marginTop': "15px", "width": "190px"}
@@ -93,17 +79,10 @@ page = dbc.Container(
                     [html.H6(["Últimas 24 horas"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
                      html.H4("🠝 {:.2%}".format(
-                         dataset.df_spain['inc_pct_Casos'].iloc[-1]), className="card-title"),
-
-
-
-
-
-                     ]
+                         dataset.df_spain['inc_pct_Casos'].iloc[-1]), className="card-title")]
                 ),
                 outline=True,
                 color='info',
-
                 style={'marginTop': "15px", "width": "190px"}
             )], width=2, align='center')
         ], style={'paddingLeft': '30px', 'paddingRight': '0px', 'paddingBottom': '20px'}
@@ -113,6 +92,7 @@ page = dbc.Container(
                 html.H3("Incremento de Fallecidos", className="display-6",
                         style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1'}),
 
+                # Daily new deceased chart
                 dcc.Graph(
                     id='inc_casos_chart',
                     figure={
@@ -141,8 +121,6 @@ page = dbc.Container(
                                 'autorange': True,
                                 'zeroline': False,
                                 'showline': False,
-
-
                             },
                             yaxis={
                                 'showgrid': False,
@@ -150,27 +128,19 @@ page = dbc.Container(
                                 'zeroline': False,
                                 'showline': False,
                                 'showticklabels': False
-
                             }
-
-
                         )
                     }, style={'marginTop': '15px', 'height': '250px'}
                 )
-
-
             ], width=10),
+
+            # Cards with last 7 days and last 24h metrics
             dbc.Col([dbc.Card(
                 dbc.CardBody(
                     [html.H6(["Últimos 7 días"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
                      html.H4("🠝 {:.2%}".format(
-                         dataset.df_spain['inc_pct_Fallecidos'].iloc[-6: -1].mean()), className="card-title"),
-
-
-
-
-
+                         dataset.df_spain['inc_pct_Fallecidos'].iloc[-6: -1].mean()), className="card-title")
                      ]
                 ),
 
@@ -183,12 +153,7 @@ page = dbc.Container(
                     [html.H6(["Últimas 24 horas"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
                      html.H4("🠝 {:.2%}".format(
-                         dataset.df_spain['inc_pct_Fallecidos'].iloc[-1]), className="card-title"),
-
-
-
-
-
+                         dataset.df_spain['inc_pct_Fallecidos'].iloc[-1]), className="card-title")
                      ]
                 ),
                 outline=True,
@@ -203,6 +168,7 @@ page = dbc.Container(
                 html.H3("Incremento de Recuperados", className="display-6",
                         style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1'}),
 
+                # Daily new recovered chart
                 dcc.Graph(
                     id='inc_casos_chart',
                     figure={
@@ -232,8 +198,6 @@ page = dbc.Container(
                                 'autorange': True,
                                 'zeroline': False,
                                 'showline': False,
-
-
                             },
                             yaxis={
                                 'showgrid': False,
@@ -241,30 +205,21 @@ page = dbc.Container(
                                 'zeroline': False,
                                 'showline': False,
                                 'showticklabels': False
-
                             }
-
-
                         )
                     }, style={'marginTop': '15px', 'height': '250px'}
                 )
-
-
             ], width=10),
+
+            # Cards with las 7 days and las 24h metric
             dbc.Col([dbc.Card(
                 dbc.CardBody(
                     [html.H6(["Últimos 7 días"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
                      html.H4("🠝 {:.2%}".format(
-                         dataset.df_spain['inc_pct_Recuperados'].iloc[-6: -1].mean()), className="card-title"),
-
-
-
-
-
+                         dataset.df_spain['inc_pct_Recuperados'].iloc[-6: -1].mean()), className="card-title")
                      ]
                 ),
-
                 color='success',
                 inverse=True,
                 style={'marginTop': "15px", "width": "190px"}
@@ -274,23 +229,15 @@ page = dbc.Container(
                     [html.H6(["Últimas 24 horas"],
                              className="card-subtitle", style={'marginBottom': '5px'}),
                      html.H4("🠝 {:.2%}".format(
-                         dataset.df_spain['inc_pct_Recuperados'].iloc[-1]), className="card-title"),
-
-
-
-
-
+                         dataset.df_spain['inc_pct_Recuperados'].iloc[-1]), className="card-title")
                      ]
                 ),
                 outline=True,
                 color='success',
-
                 style={'marginTop': "15px", "width": "190px"}
             )], width=2, align='center')
         ], style={'paddingLeft': '30px', 'paddingRight': '0px'}
         ),
-
-
     ],
     fluid=True,
     style={'padding': '0px', 'backgroundColor': '#d4dadc'}
