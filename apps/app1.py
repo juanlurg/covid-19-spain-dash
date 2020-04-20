@@ -12,6 +12,7 @@ from app import app
 from apps import common
 from apps.data import dataset
 
+# Every metrics has CSS class attached
 colors_dict = {
     "Casos activos": 'info',
     "Infectados": 'danger',
@@ -23,7 +24,7 @@ colors_dict = {
     "recuperados_1k": 'success',
 }
 
-
+# Load GeoJSON shapes from file
 with open('geo.json') as response:
     communities = json.load(response)
 
@@ -31,6 +32,8 @@ with open('geo.json') as response:
 cards_content = []
 cards_mobile = []
 
+
+# Generate cards with metrics string and value
 for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
     cards_content.append(
         dbc.Card(
@@ -41,18 +44,15 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
                         value).replace(",", "."), className="card-title"),  # Heroku only allows EN-us locale in apps so workaround to format numbers following spanish way
                     html.H6(["🠝 {0:,g} (24h.)".format(dataset.inc_dict[metric]).replace(',', '.')],
                             className="card-subtitle"),
-
-
-
-
                  ]
             ),
-
             color=colors_dict[metric],
             inverse=True,
             style={'marginTop': "15px"}
         )
     )
+    # For responsiveness
+    # cards for mobile devices
     cards_mobile.append(
         dbc.Card(
             dbc.CardBody(
@@ -76,15 +76,14 @@ for i, (metric, value) in enumerate(dataset.metrics_dict.items()):
         )
     )
 
-
+# Plotly Choroplet Map Box with default metric (active cases)
 fig = [go.Choroplethmapbox(geojson=communities, locations=dataset.hoy['cod_ine'], z=dataset.hoy['Casos Activos'],
                            featureidkey='properties.codigo',
                            colorscale="Blues", zmin=dataset.hoy['Casos Activos'].min(), zmax=dataset.hoy['Casos Activos'].max(),
                            marker_opacity=1, marker_line_width=0, showlegend=False, showscale=False
-                           )
-       ]
+                           )]
 
-
+# Layout for previous figure
 layout = go.Layout(mapbox_style="carto-positron",
                    mapbox_zoom=5, mapbox_center={"lat": 40.416775, "lon": -3.703790}, autosize=False,
                    width=1000,
@@ -95,11 +94,12 @@ layout = go.Layout(mapbox_style="carto-positron",
                        b=0,
                        t=0))
 
-
+# Layout of the page
 page = dbc.Container(
     [
         common.navbar,
         common.nav_mob,
+        # First row with metrics' cards and map chart
         dbc.Row([
             dbc.Col(cards_content, width=2, style={
                     'position': 'fixed'}, className='hide-mobile h-100', md=12, lg=2),
@@ -130,14 +130,15 @@ page = dbc.Container(
                     style={'position': 'absolute', 'marginTop': '15px', 'zIndex': '1', 'width': '350px'}),
 
                 dcc.Graph(id='mapa-spain',
-                          figure={"data": fig, "layout": layout}, responsive=True)], width={'size': 10, 'offset': 2}, className='d-sm-none d-lg-block', style={'height': 'calc(100vh - 55px)'
-                                                                                                                                                               })
+                          figure={"data": fig, "layout": layout}, responsive=True)], width={'size': 10, 'offset': 2},
+                className='d-sm-none d-lg-block',  # hide map in small screen devices
+                style={'height': 'calc(100vh - 55px)'})
         ],
-            style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'
-                   },
-            className='d-sm-none d-lg-block'
+            style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'},
+            className='d-sm-none d-lg-block'  # hide the row in small devices
         ),
 
+        # Second row: daily evolution
         dbc.Row([
             dbc.Col([html.H1("Evolución diaria", className="display-5", style={'paddingTop': '15px'}),
                      html.P(
@@ -169,9 +170,10 @@ page = dbc.Container(
             )], lg={"size": 10, "offset": 2}, md={"size": 12, "offset": 0})
         ],
             style={"paddingLeft": "10px", 'height': '560px'},
-            className="d-sm-none d-lg-block"
+            className="d-sm-none d-lg-block"  # only shown in large screens
         ),
 
+        # Third row, evolution per community
         dbc.Row([
             dbc.Col([html.H1("Evolución por comunidades", className="display-5", style={'paddingTop': '15px'}),
                      html.P(
@@ -192,7 +194,7 @@ page = dbc.Container(
             )], width={"size": 10, "offset": 2})
         ],
             style={"paddingLeft": "10px", 'height': '560px'},
-            className="d-sm-none d-lg-block"
+            className="d-sm-none d-lg-block"  # only shown in large screens
         ),
         dbc.Row([
             dbc.Col(cards_mobile, width=2,
@@ -201,8 +203,10 @@ page = dbc.Container(
         ],
             style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'
                    },
-            className="d-sm-block d-lg-none"
+            className="d-sm-block d-lg-none"  # only shown in small screens
         ),
+
+        # row with overall daily evolution
         dbc.Row([
             dbc.Col([html.H1("Evolución diaria", className="display-5", style={'paddingTop': '15px', 'fontSize': '70px'}),
 
@@ -230,6 +234,7 @@ page = dbc.Container(
                      }, responsive=True,
                 style={'height': '42%'}
             ),
+                # Evolution per community
                 html.H1("Evolución por comunidades",
                         className="display-5", style={'paddingTop': '15px', 'fontSize': '70px'}),
                 dcc.Graph(figure={
@@ -246,7 +251,7 @@ page = dbc.Container(
             ], lg={"size": 10, "offset": 2}, md={"size": 12, "offset": 0}, className='h-100')
         ],
             style={"paddingLeft": "10px", 'height': 'calc(100vh - 55px)'},
-            className="d-sm-block d-lg-none"
+            className="d-sm-block d-lg-none"  # only shown in small screens
         )
 
 
@@ -258,7 +263,13 @@ page = dbc.Container(
 
 @app.callback(Output('mapa-spain', 'figure'), [Input('dimension-mapa', 'value')])
 def update_mapa(selected_dimension):
+    '''
+    Update Choropleth Mapbox based on the dropdown selection
 
+    Dash callback:
+    - Input: Dropdown element, value
+    - Output: Dash Core Components Graph, figure
+    '''
     color_scale_dict = {
         "Casos Activos": 'Blues',
         "Casos": 'OrRd',
@@ -269,6 +280,8 @@ def update_mapa(selected_dimension):
         "fallecidos_1k": 'Greys',
         "recuperados_1k": 'Greens',
     }
+
+    # Generate figure for dropdown selected metric
     fig = [go.Choroplethmapbox(geojson=communities, locations=dataset.hoy['cod_ine'], z=dataset.hoy[selected_dimension],
                                featureidkey='properties.codigo',
                                colorscale=color_scale_dict[selected_dimension], zmin=dataset.hoy[selected_dimension].min(), zmax=dataset.hoy[selected_dimension].max(),
@@ -296,6 +309,9 @@ def update_mapa(selected_dimension):
     [State("modal", "is_open")],
 )
 def toggle_modal(n1, n2, is_open):
+    '''
+    Open the modal based on icon click
+    '''
     if n1 or n2:
         return not is_open
     return is_open
