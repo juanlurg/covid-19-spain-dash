@@ -25,6 +25,7 @@ class Dataset(object):
         '''
         self.df = pd.read_csv(url)
         self.df['Fecha'] = pd.to_datetime(self.df['Fecha'])
+        self.df['Casos'] = self.df['PCR+'] + self.df['TestAc+']
         self.df['Casos Activos'] = self.df['Casos'] - \
             self.df['Fallecidos'] - self.df['Recuperados']
         self.compute_today_df()
