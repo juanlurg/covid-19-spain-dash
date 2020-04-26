@@ -77,8 +77,8 @@ jupyter notebook
 ## Featured Notebooks
 
 - [Exploring COVID-19 Spain Data](https://github.com/juanlurg/covid-19-spain-dash/blob/master/notebooks/Exploring%20COVID-19%20Spain%20Data.ipynb)
-- [Coming soon](link)
-- [Coming soon](link)
+- [Feature Engineering](https://github.com/juanlurg/covid-19-spain-dash/blob/master/notebooks/Feature%20Engineering.ipynb)
+- [Models](https://github.com/juanlurg/covid-19-spain-dash/blob/master/notebooks/Models.ipynb)
 
 ## Contributing
 
